@@ -82,12 +82,12 @@ class SocialPostCrudController extends AbstractCrudController
         }
 
         yield IdField::new('id')->onlyOnIndex();
-        yield TextField::new('title', '@social.admin.post.title')->setColumns(6)->setHelp('@social.admin.post.title_help');
+        yield TextField::new('title', '@social.admin.post.title')->setRequired(false)->setColumns(6)->setHelp('@social.admin.post.title_help');
         yield SelectField::new('kind', '@social.admin.post.kind')->setChoices($kinds)->setColumns(3);
         yield SelectField::new('state', '@social.admin.post.state')->setColumns(3)->hideOnForm();
-        yield VideoField::new('video', '@social.admin.post.video')->setColumns(6)->hideOnIndex()->setHelp('@social.admin.post.video_help');
+        yield VideoField::new('video', '@social.admin.post.video')->setRequired(false)->setColumns(6)->hideOnIndex()->setHelp('@social.admin.post.video_help');
         yield ImageField::new('image', '@social.admin.post.image')->setColumns(6)->hideOnIndex()->setRequired(false);
-        yield TextareaField::new('caption', '@social.admin.post.caption')->hideOnIndex();
+        yield TextareaField::new('caption', '@social.admin.post.caption')->setRequired(false)->hideOnIndex();
         yield SelectField::new('tags', '@social.admin.post.tags')->allowMultipleChoices()->allowTags([',', ' ', ';'])->setRequired(false)->setColumns(12)->hideOnIndex()->setHelp('@social.admin.post.tags_help');
         // Chosen in the list of the site's templates (Symfony's EntityType), not edited from here:
         // AssociationType embeds the template's own form in the post's.
