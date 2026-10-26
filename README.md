@@ -1,13 +1,13 @@
 # Social
 
-Social publishing for [omnibase](https://github.com/glitchr-studio/omnibase):
+Social publishing for [omnibase](https://github.com/glitchr-omnisense/omnibase):
 a reel made from the site's own template - its logo, a band with a name on
 it, its colours, its font, a clip before and after -, sent to each network
 with what it says there, and the account's feed kept for a wall on the site.
 A violinist's site posts her concert's excerpt to Instagram and YouTube from
 its back office; a shop shows its last posts under its products.
 
-The networks are [glitchr/omnipost](https://github.com/glitchr-studio/omnipost)'s
+The networks are [glitchr/omnipost](https://github.com/glitchr-omnisense/omnipost)'s
 providers (`instagram`, `youtube`...): this bundle knows the site - its
 template, its posts, its settings -, omnipost knows the networks.
 
