@@ -3,6 +3,7 @@
 namespace Base\Social\Controller\Admin\Crud;
 
 use Base\Admin\Controller\AbstractCrudController;
+use Base\Database\UnitOfWorks;
 use Base\Field\BooleanField;
 use Base\Field\ColorPickerField;
 use Base\Field\FileField;
@@ -16,7 +17,7 @@ use Base\Social\Entity\Template;
 use Base\Social\Enum\Fit;
 use Base\Social\Enum\LogoPosition;
 use Base\Social\Service\Accounts;
-use Doctrine\ORM\EntityManagerInterface;
+use Omnibridge\Persistence\UnitOfWork;
 use Omnipost\Platform;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -97,24 +98,24 @@ class TemplateCrudController extends AbstractCrudController
     }
 
     /** One site's template: the one saved as such takes the place of the others. */
-    public function persistEntity(EntityManagerInterface $entityManager, object $entity): void
+    public function persistRecord(UnitOfWork $unitOfWork, object $entity): void
     {
-        $this->onlyDefault($entityManager, $entity);
-        parent::persistEntity($entityManager, $entity);
+        $this->onlyDefault($unitOfWork, $entity);
+        parent::persistRecord($unitOfWork, $entity);
     }
 
-    public function updateEntity(EntityManagerInterface $entityManager, object $entity): void
+    public function updateRecord(UnitOfWork $unitOfWork, object $entity): void
     {
-        $this->onlyDefault($entityManager, $entity);
-        parent::updateEntity($entityManager, $entity);
+        $this->onlyDefault($unitOfWork, $entity);
+        parent::updateRecord($unitOfWork, $entity);
     }
 
-    private function onlyDefault(EntityManagerInterface $entityManager, object $entity): void
+    private function onlyDefault(UnitOfWork $unitOfWork, object $entity): void
     {
         if (!$entity instanceof Template || !$entity->isDefault()) {
             return;
         }
-        foreach ($entityManager->getRepository(Template::class)->findBy(['default' => true, 'platform' => $entity->getPlatform()]) as $other) {
+        foreach (UnitOfWorks::repositories($unitOfWork)->of(Template::class)->findBy(['default' => true, 'platform' => $entity->getPlatform()]) as $other) {
             if ($other !== $entity) {
                 $other->setDefault(false);
             }
