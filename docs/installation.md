@@ -8,7 +8,7 @@ order: 10
 ## Requirements
 
 What `composer.json` requires: PHP 8.2 or later, `doctrine/orm` 2.15 or 3,
-`omnisense/omnibase` 3.0 or 4.0, `omnibridge/symfony` 1.x, `omnibase/admin`,
+`omnisense/omnibase` 3.0, 4.0 or 5.0, `omnibridge/symfony` 1.x, `omnibase/admin`,
 `omnisense/omnipost` 1.x, and `symfony/config`, `dependency-injection`, `form`, `http-kernel`,
 `security-bundle`, `process` and `messenger` 6, 7 or 8. Install the omnipost providers the site
 publishes to (`omnipost/instagram`, `omnipost/youtube`...).
