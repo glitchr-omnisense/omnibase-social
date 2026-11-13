@@ -28,7 +28,7 @@ final class RendererCommandTest extends TestCase
             'logoPosition' => LogoPosition::TOP_RIGHT,
             'logoScale' => 0.2,
             'band' => true,
-            'bandText' => "Brieuc Vourch, violon: Bach's [Chaconne]",
+            'bandText' => "Clara Exemple, violon: Bach's [Chaconne]",
             'bandColor' => '#1A1A1A',
             'textColor' => '#ffffff',
             'font' => '/fonts/Garamond.ttf',
@@ -46,7 +46,7 @@ final class RendererCommandTest extends TestCase
         self::assertSame('[base][logo]overlay=W-w-64:64[logod]', $chains[2]);
         self::assertStringStartsWith('[logod]drawbox=x=0:y=1380:w=1080:h=140:color=0x1a1a1a:t=fill,drawtext=fontfile=/fonts/Garamond.ttf:', $chains[3]);
         // The text escaped twice: for the option (\' \:), then for the graph (\\ \' \[ \] \,).
-        self::assertStringContainsString("text=Brieuc Vourch\\, violon\\\\: Bach\\\\\\'s \\[Chaconne\\]:expansion=none", $chains[3]);
+        self::assertStringContainsString("text=Clara Exemple\\, violon\\\\: Bach\\\\\\'s \\[Chaconne\\]:expansion=none", $chains[3]);
         // 40 characters: the size brought down so that the text holds between the margins.
         self::assertStringContainsString('fontcolor=0xffffff:fontsize=41:x=(w-text_w)/2:y=1380+(140-text_h)/2', $chains[3]);
         self::assertStringEndsWith('fade=t=in:st=0:d=0.5,fade=t=out:st=41.5:d=0.5,format=yuv420p[v]', $chains[3]);
@@ -70,7 +70,7 @@ final class RendererCommandTest extends TestCase
             'fit' => Fit::CONTAIN,
             'background' => '#F5F0E6',
             'band' => true,
-            'bandText' => 'Anaëlle Tourret',
+            'bandText' => 'Jeanne Exemple',
             'outro' => ['path' => '/in/outro.mp4', 'duration' => 3.0, 'audio' => false],
             'fps' => 25,
         ]);
@@ -80,7 +80,7 @@ final class RendererCommandTest extends TestCase
 
         self::assertSame('[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=0xf5f0e6,setsar=1,fps=25[base]', $chains[0]);
         // No logo: the band goes straight on the base; no font uploaded nor configured: fontconfig's Sans.
-        self::assertSame('[base]drawbox=x=0:y=1380:w=1080:h=140:color=0x000000:t=fill,drawtext=font=Sans:text=Anaëlle Tourret:expansion=none:fontcolor=0xffffff:fontsize=56:x=(w-text_w)/2:y=1380+(140-text_h)/2,format=yuv420p[v]', $chains[1]);
+        self::assertSame('[base]drawbox=x=0:y=1380:w=1080:h=140:color=0x000000:t=fill,drawtext=font=Sans:text=Jeanne Exemple:expansion=none:fontcolor=0xffffff:fontsize=56:x=(w-text_w)/2:y=1380+(140-text_h)/2,format=yuv420p[v]', $chains[1]);
         self::assertSame('[0:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo[a]', $chains[2]);
         // The outro: the same frame (cropped to fill), and a silence as long as it.
         self::assertSame('[1:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=25,format=yuv420p[vo]', $chains[3]);
@@ -108,7 +108,7 @@ final class RendererCommandTest extends TestCase
         self::assertSame('0xff8800', Renderer::color('#FF8800'));
         self::assertSame('0x000000', Renderer::color('red'));
         self::assertSame('(W-w)/2:(H-h)/2', LogoPosition::CENTER->overlay(64));
-        self::assertSame(56, Renderer::fontSize('Anaëlle Tourret'));
+        self::assertSame(56, Renderer::fontSize('Jeanne Exemple'));
         self::assertSame(28, Renderer::fontSize(str_repeat('a long band text ', 8)));
 
         $measures = Renderer::measures(['format' => ['duration' => '15.04', 'size' => '1048576', 'format_name' => 'mov,mp4,m4a,3gp,3g2,mj2'], 'streams' => [

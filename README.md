@@ -107,8 +107,11 @@ maintenance or launch date page on it).
 ## Install
 
 ```bash
-composer require omnibase/social:dev-main
+composer require omnibase/social
 ```
+
+Stable releases follow semantic versioning: this installs the latest 1.x, with omnisense/omnibase 5.1 or later
+on Symfony (omnibridge/symfony) and Doctrine ORM (DoctrineBundle), omnibase/admin for the back office. No `minimum-stability` setting is needed.
 
 ```php
 // config/bundles.php

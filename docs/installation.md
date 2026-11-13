@@ -8,7 +8,7 @@ order: 10
 ## Requirements
 
 What `composer.json` requires: PHP 8.2 or later, `doctrine/orm` 2.15 or 3,
-`omnisense/omnibase` 3.0, 4.0 or 5.0, `omnibridge/symfony` 1.x, `omnibase/admin`,
+`omnisense/omnibase` 5.1 or later, `omnibridge/symfony` 1.1 or later, `doctrine/doctrine-bundle`, `omnibase/admin`,
 `omnisense/omnipost` 1.x, and `symfony/config`, `dependency-injection`, `form`, `http-kernel`,
 `security-bundle`, `process` and `messenger` 6, 7 or 8. Install the omnipost providers the site
 publishes to (`omnipost/instagram`, `omnipost/youtube`...).
@@ -26,7 +26,7 @@ Without them a rendering fails with a `RenderingException` saying so, shown on t
 ## The bundles
 
 ```bash
-composer require omnibase/social:dev-main omnipost/instagram:1.x-dev
+composer require omnibase/social omnipost/instagram
 ```
 
 ```php

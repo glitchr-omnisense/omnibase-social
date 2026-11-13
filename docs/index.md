@@ -4,7 +4,7 @@ Social publishing for the sites built on [omnisense/omnibase](https://github.com
 a reel made from the site's own template - its logo, a band with a name on it, its colours,
 its font, a clip before and after - sent to each network with what it says there, and the
 account's feed kept for a wall on the site. It is a Symfony bundle (`Base\Social\SocialBundle`)
-on the core 3 or 4; the networks are [omnisense/omnipost](https://github.com/glitchr-omnisense/omnipost)'s
+on omnisense/omnibase 5.1 or later; the networks are [omnisense/omnipost](https://github.com/glitchr-omnisense/omnipost)'s
 providers (`instagram`, `youtube`...). This bundle knows the site - its templates, its posts,
 its settings -, omnipost knows the networks.
 

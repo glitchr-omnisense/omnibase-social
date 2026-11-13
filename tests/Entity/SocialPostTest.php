@@ -20,7 +20,7 @@ final class SocialPostTest extends TestCase
             ->setCaption('Bach, the Chaconne, at the Salle Cortot.')
             ->setTitle('Chaconne')
             ->setTags(['#violin', 'bach', ' ', 'bach'])
-            ->setLink('https://brieucvourch.example/concerts');
+            ->setLink('https://violinist.example/concerts');
         $instagram = self::target($post, Platform::INSTAGRAM, 1, '/s/1/instagram.mp4', '/s/1/instagram.jpg');
         $instagram->setOptions(['share_to_feed' => true, 'privacy' => null]);
         $youtube = self::target($post, Platform::YOUTUBE, 2, '/s/1/youtube.mp4', null)
@@ -36,7 +36,7 @@ final class SocialPostTest extends TestCase
         self::assertSame('Bach, the Chaconne, at the Salle Cortot.', $canonical->caption);
         self::assertSame('Chaconne', $canonical->title);
         self::assertSame(['violin', 'bach'], $canonical->tags);
-        self::assertSame('https://brieucvourch.example/concerts', $canonical->link);
+        self::assertSame('https://violinist.example/concerts', $canonical->link);
         self::assertNull($canonical->scheduledAt);
         // The disabled network is not there.
         self::assertSame(['instagram', 'youtube'], array_keys($canonical->variants));
