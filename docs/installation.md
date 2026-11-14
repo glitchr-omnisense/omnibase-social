@@ -33,7 +33,7 @@ composer require omnibase/social omnipost/instagram
 // config/bundles.php
 return [
     // ...
-    Base\BaseBundle::class => ['all' => true],
+    Omnibridge\Symfony\Omnibase\BaseBundle::class => ['all' => true],
     Base\Admin\AdminBundle::class => ['all' => true],
     Omnipost\Bridge\Symfony\OmnipostBundle::class => ['all' => true],
     Base\Social\SocialBundle::class => ['all' => true],

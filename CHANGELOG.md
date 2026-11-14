@@ -5,6 +5,19 @@ versions [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] — 2026-11-14
+
+### Changed
+- The bundle's classes extend omnibridge/symfony's `AbstractBaseBundle`, `AbstractBaseExtension` and
+  `AbstractBaseConfiguration` by their names (`Omnibridge\Symfony\Omnibase\Bundle\*`), no longer by the former
+  `Base\Bundle\*` ones, which omnisense/omnibase keeps only as aliases until 6.0. The same classes: nothing changes for
+  an application.
+- `CrudFormsTest` names the form types `Omnibridge\Symfony\Omnibase\Field\Type\AssociationType` and
+  `CollectionType`, not their former names `Base\Field\Type\*`, and compares a field's form type with `is_a()`:
+  omnibridge/symfony 1.1's kinds still give the collection's by its former name, an alias of the same class.
+- docs/installation.md: `config/bundles.php` registers `Omnibridge\Symfony\Omnibase\BaseBundle`, the core's
+  bundle under its name since omnisense/omnibase 5.0 (`Base\BaseBundle` is its former name).
+
 ## [1.0.0] — 2026-11-13
 
 ### Changed

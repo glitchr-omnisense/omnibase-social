@@ -3,8 +3,6 @@
 namespace Base\Social\Tests\Controller\Admin;
 
 use Base\Field\FieldDescriptor;
-use Base\Field\Type\AssociationType;
-use Base\Field\Type\CollectionType;
 use Base\Social\Controller\Admin\Crud\SocialPostCrudController;
 use Base\Social\Controller\Admin\Crud\TemplateCrudController;
 use Base\Social\Entity\Template;
@@ -14,6 +12,8 @@ use Base\Social\Form\TargetType;
 use Base\Social\Service\Accounts;
 use Base\Social\Service\Publisher;
 use Doctrine\ORM\Mapping as ORM;
+use Omnibridge\Symfony\Omnibase\Field\Type\AssociationType;
+use Omnibridge\Symfony\Omnibase\Field\Type\CollectionType;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -97,12 +97,13 @@ final class CrudFormsTest extends TestCase
     public function testThePostTakesItsTargetsAsObjectsAndChoosesItsTemplateInAList(): void
     {
         foreach (self::formFields($this->posts()) as $page => $fields) {
-            self::assertSame(CollectionType::class, $fields['targets']->getFormType(), $page);
+            // is_a(): the core's kinds may still name a type by its former name (Base\Field\Type\*), an alias of the same class.
+            self::assertTrue(is_a((string) $fields['targets']->getFormType(), CollectionType::class, true), $page);
             self::assertSame(TargetType::class, $fields['targets']->getFormTypeOption('entry_type'), $page);
             self::assertTrue($fields['targets']->getFormTypeOption('allow_object'), 'the targets are entities: the collection is told so ('.$page.')');
 
             self::assertNotSame([], self::enumsOf(Template::class));
-            self::assertNotSame(AssociationType::class, $fields['template']->getFormType(), 'AssociationType embeds the template\'s form, whose enums it prints in a text input ('.$page.')');
+            self::assertFalse(is_a((string) $fields['template']->getFormType(), AssociationType::class, true), 'AssociationType embeds the template\'s form, whose enums it prints in a text input ('.$page.')');
             self::assertSame(EntityType::class, $fields['template']->getFormType(), $page);
             self::assertSame(Template::class, $fields['template']->getFormTypeOption('class'), $page);
             self::assertFalse($fields['template']->isRequired(), 'a post may name no template');

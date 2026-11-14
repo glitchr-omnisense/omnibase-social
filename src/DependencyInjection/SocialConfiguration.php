@@ -2,7 +2,7 @@
 
 namespace Base\Social\DependencyInjection;
 
-use Base\Bundle\AbstractBaseConfiguration;
+use Omnibridge\Symfony\Omnibase\Bundle\AbstractBaseConfiguration;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class SocialConfiguration extends AbstractBaseConfiguration
