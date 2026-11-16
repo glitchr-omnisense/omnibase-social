@@ -72,7 +72,7 @@ class SocialMediaCrudController extends AbstractCrudController
         /** @var SocialMedia $media */
         $media = $this->findEntity($entityId);
         $media->setHidden(!$media->isHidden());
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
         $this->addFlash('success', $media->isHidden() ? '@social.admin.media.flash.hidden' : '@social.admin.media.flash.shown');
 
         return $this->redirectToIndex();

@@ -3,15 +3,21 @@
 namespace Base\Social\Repository;
 
 use Base\Social\Entity\SocialMedia;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Base\Database\Repository\Finders;
+use Base\Database\Repository\ServiceEntityRepository;
 
-/** @extends ServiceEntityRepository<SocialMedia> */
+/**
+ * @method SocialMedia|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SocialMedia|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method SocialMedia[]    findAll()
+ * @method SocialMedia[]    findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ * @method mixed            maxOfFetchedAtBy(array $criteria)      the finder language: MAX(fetchedAt), null without rows
+ */
 class SocialMediaRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(Finders $finders)
     {
-        parent::__construct($registry, SocialMedia::class);
+        parent::__construct($finders, SocialMedia::class);
     }
 
     /**
@@ -22,15 +28,12 @@ class SocialMediaRepository extends ServiceEntityRepository
      */
     public function findWall(int $limit = 12, ?string $provider = null): array
     {
-        $query = $this->createQueryBuilder('m')
-            ->andWhere('m.hidden = false')
-            ->orderBy('m.publishedAt', 'DESC')
-            ->setMaxResults($limit);
+        $criteria = ['hidden' => false];
         if (null !== $provider) {
-            $query->andWhere('m.provider = :provider')->setParameter('provider', $provider);
+            $criteria['provider'] = $provider;
         }
 
-        return $query->getQuery()->getResult();
+        return $this->findBy($criteria, ['publishedAt' => 'DESC'], $limit);
     }
 
     public function findOneRemote(string $provider, string $remoteId): ?SocialMedia
@@ -41,9 +44,10 @@ class SocialMediaRepository extends ServiceEntityRepository
     /** When the provider's feed was last read; null: never. */
     public function lastSync(string $provider): ?\DateTimeInterface
     {
-        $at = $this->createQueryBuilder('m')->select('MAX(m.fetchedAt)')
-            ->andWhere('m.provider = :provider')->setParameter('provider', $provider)
-            ->getQuery()->getSingleScalarResult();
+        $at = $this->maxOfFetchedAtBy(['provider' => $provider]);
+        if ($at instanceof \DateTimeInterface) {
+            return \DateTimeImmutable::createFromInterface($at);
+        }
 
         return $at ? new \DateTimeImmutable((string) $at) : null;
     }

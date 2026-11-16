@@ -4,7 +4,7 @@ namespace Base\Social\Service;
 
 use Base\Social\Entity\SocialMedia;
 use Base\Social\Repository\SocialMediaRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Omnipost\Exception\InvalidConfigException;
 use Omnipost\FeedInterface;
 use Omnipost\Model\FeedItem;
@@ -30,7 +30,7 @@ class FeedSync
     public function __construct(
         private readonly Accounts $accounts,
         private readonly SocialMediaRepository $media,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         private readonly HttpClientInterface $http,
         private readonly LoggerInterface $logger = new NullLogger(),
         #[Autowire('%social.feed.limit%')] private readonly int $limit = 24,
@@ -55,9 +55,9 @@ class FeedSync
         foreach ($items as $item) {
             $media = $this->media->findOneRemote($provider, $item->id) ?? new SocialMedia($provider, $item->id);
             $this->fill($media, $item);
-            $this->entityManager->persist($media);
+            $this->unitOfWork->persist($media);
         }
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
 
         return \count($items);
     }

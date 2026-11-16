@@ -17,7 +17,7 @@ use Base\Social\Entity\Template;
 use Base\Social\Enum\Fit;
 use Base\Social\Enum\LogoPosition;
 use Base\Social\Service\Accounts;
-use Omnibridge\Persistence\UnitOfWork;
+use Base\Contract\UnitOfWork;
 use Omnipost\Platform;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Contracts\Service\Attribute\Required;

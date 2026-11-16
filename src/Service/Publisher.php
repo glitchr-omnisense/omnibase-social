@@ -10,7 +10,7 @@ use Base\Social\Exception\RenderingException;
 use Base\Social\Message\CheckTargetMessage;
 use Base\Social\Message\PublishTargetMessage;
 use Base\Social\Repository\TemplateRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Base\Contract\UnitOfWork;
 use Omnipost\Exception\OmnipostException;
 use Omnipost\Exception\UnauthorizedException;
 use Omnipost\Model\Media;
@@ -38,7 +38,7 @@ use Symfony\Component\Messenger\Stamp\DelayStamp;
 class Publisher
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly UnitOfWork $unitOfWork,
         private readonly Renderer $renderer,
         private readonly TemplateRepository $templates,
         private readonly Accounts $accounts,
@@ -62,7 +62,7 @@ class Publisher
     public function render(SocialPost $post, bool $publish = false): void
     {
         $post->setState(PostState::RENDERING);
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
 
         foreach ($post->getEnabledTargets() as $target) {
             if (TargetState::PUBLISHED === $target->getState()) {
@@ -75,11 +75,11 @@ class Publisher
                 $this->logger->error('social: rendering for {platform} failed: {error}', ['platform' => $target->getPlatform(), 'error' => $e->getMessage()]);
                 $target->fail($e->getMessage());
             }
-            $this->entityManager->flush();
+            $this->unitOfWork->flush();
         }
 
         $post->refreshState();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
 
         if ($publish) {
             $this->dispatchPublish($post);
@@ -270,7 +270,7 @@ class Publisher
     private function settle(SocialPostTarget $target): void
     {
         $target->getPost()?->refreshState();
-        $this->entityManager->flush();
+        $this->unitOfWork->flush();
     }
 
     /**

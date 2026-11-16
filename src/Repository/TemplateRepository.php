@@ -4,21 +4,29 @@ namespace Base\Social\Repository;
 
 use Base\Social\Entity\SocialPostTarget;
 use Base\Social\Entity\Template;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Base\Database\Repository\Finder\Criterion;
+use Base\Database\Repository\Finder\Group;
+use Base\Database\Repository\Finder\Parser;
+use Base\Database\Repository\Finders;
+use Base\Database\Repository\ServiceEntityRepository;
 
-/** @extends ServiceEntityRepository<Template> */
+/**
+ * @method Template|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Template|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method Template[]    findAll()
+ * @method Template[]    findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+ */
 class TemplateRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(Finders $finders)
     {
-        parent::__construct($registry, Template::class);
+        parent::__construct($finders, Template::class);
     }
 
     /** The site's own template, if it has one. */
     public function findDefault(): ?Template
     {
-        return $this->findOneBy(['default' => true, 'platform' => null], ['id' => 'ASC'])
+        return $this->findOneBy(['default' => true, Group::of(Parser::SEPARATOR_AND, Criterion::of('platform', null, Parser::OPTION_NULL))], ['id' => 'ASC'])
             ?? $this->findOneBy(['default' => true], ['id' => 'ASC']);
     }
 

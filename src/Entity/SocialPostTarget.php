@@ -5,7 +5,7 @@ namespace Base\Social\Entity;
 use Base\Social\Enum\TargetState;
 use Base\Social\Model\Rendering;
 use Base\Social\Repository\SocialPostTargetRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 use Omnipost\Model\Media;
 use Omnipost\Model\MediaKind;
 use Omnipost\Model\PostKind;

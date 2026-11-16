@@ -4,7 +4,7 @@ namespace Base\Social\Entity;
 
 use Base\Database\Attribute\Uploader;
 use Base\Social\Repository\SocialMediaRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 use Omnipost\Model\PostKind;
 use Omnipost\Platform;
 use Symfony\Component\HttpFoundation\File\File;

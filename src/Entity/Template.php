@@ -6,7 +6,7 @@ use Base\Database\Attribute\Uploader;
 use Base\Social\Enum\Fit;
 use Base\Social\Enum\LogoPosition;
 use Base\Social\Repository\TemplateRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Base\Mapping as ORM;
 use Omnipost\Platform;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
